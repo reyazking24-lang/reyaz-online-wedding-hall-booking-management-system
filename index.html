@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reyaz Online Wedding Hall Booking Management System</title>
+    <!-- Google Fonts for Luxury Aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👑</text></svg>">
+</head>
+<body>
+
+    <!-- Ambient Golden Particle Canvas -->
+    <canvas id="ambientCanvas"></canvas>
+
+    <div class="app-wrapper">
+        <!-- Top Navigation Bar -->
+        <nav class="navbar">
+            <div class="container nav-container">
+                <a href="#home" class="nav-brand">
+                    <div class="brand-icon">👑</div>
+                    <div>
+                        <div class="brand-title">REYAZ GRAND</div>
+                        <div class="brand-subtitle">Wedding Halls & Banquets</div>
+                    </div>
+                </a>
+
+                <ul class="nav-links">
+                    <li><a href="#home" class="active">Home</a></li>
+                    <li><a href="#halls">Venues & Halls</a></li>
+                    <li><a href="#calendar">Availability</a></li>
+                    <li><a href="#services">Services & Menus</a></li>
+                    <li><a href="#reviews">Testimonials</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a href="admin.html" class="btn btn-admin" title="Open Management Dashboard">
+                        <span>⚙️ Admin Portal</span>
+                    </a>
+                    <a href="#halls" class="btn btn-primary">Book Venue</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero-section" id="home">
+            <div class="container">
+                <div class="hero-badge">
+                    <span>✨ Bespoke Royal Celebrations</span>
+                </div>
+                <h1 class="hero-title">
+                    Reyaz Online Wedding Hall <br>
+                    <span class="gold-text">Booking Management System</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Host your dream wedding at our award-winning luxury ballrooms, lush outdoor lawns, and royal heritage venues. Seamless real-time reservation, bespoke catering & décor.
+                </p>
+
+                <!-- Real-Time Search & Check Widget -->
+                <form class="search-widget" id="heroSearchForm">
+                    <div class="search-field">
+                        <label for="searchHallSelect">🏰 Select Venue</label>
+                        <select id="searchHallSelect" class="search-input">
+                            <option value="all">Loading halls...</option>
+                        </select>
+                    </div>
+
+                    <div class="search-field">
+                        <label for="searchDate">📅 Event Date</label>
+                        <input type="date" id="searchDate" class="search-input">
+                    </div>
+
+                    <div class="search-field">
+                        <label for="searchGuests">👥 Guests</label>
+                        <input type="number" id="searchGuests" class="search-input" value="800" min="100" max="3000" step="50">
+                    </div>
+
+                    <div class="search-field">
+                        <label for="searchSlot">⏰ Preferred Slot</label>
+                        <select id="searchSlot" class="search-input">
+                            <option value="evening">Evening (5 PM - 12 AM)</option>
+                            <option value="morning">Morning (9 AM - 3 PM)</option>
+                            <option value="fullday">Full Day (24 Hours)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="height: 44px; margin-top: 18px;">
+                        Check & Reserve
+                    </button>
+                </form>
+
+                <!-- Statistics Ribbon -->
+                <div class="stats-ribbon">
+                    <div class="stat-item">
+                        <div class="stat-number" id="statHallsCount">5+</div>
+                        <div class="stat-label">Luxury Grand Venues</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="statBookingsCount">150+</div>
+                        <div class="stat-label">Weddings Hosted</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2,500</div>
+                        <div class="stat-label">Max Guest Capacity</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">4.9 ★</div>
+                        <div class="stat-label">Customer Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wedding Halls Showcase Section -->
+        <section class="halls-section" id="halls" style="padding: 70px 0;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Explore Palaces & Ballrooms</span>
+                    <h2 class="section-title">Our Exclusive Wedding Venues</h2>
+                    <p class="section-desc">
+                        Every hall is equipped with crystal chandeliers, executive bridal suites, acoustic surround sound, and dedicated banquet dining spaces.
+                    </p>
+                </div>
+
+                <!-- Category Filters -->
+                <div class="filter-bar">
+                    <button class="filter-btn active" data-category="all">All Venues (5)</button>
+                    <button class="filter-btn" data-category="indoor">Grand Ballrooms (2)</button>
+                    <button class="filter-btn" data-category="outdoor">Lush Lawns (1)</button>
+                    <button class="filter-btn" data-category="heritage">Royal Heritage (1)</button>
+                    <button class="filter-btn" data-category="intimate">Intimate Banquets (1)</button>
+                </div>
+
+                <!-- Halls Grid -->
+                <div class="halls-grid" id="hallsGrid">
+                    <!-- Populated dynamically by app.js -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Availability Calendar Section -->
+        <section class="calendar-section" id="calendar">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Real-Time Booking Status</span>
+                    <h2 class="section-title">Interactive Availability Calendar</h2>
+                    <p class="section-desc">
+                        Browse dates in real time. Click on any green available date to immediately configure your package and reserve your slot.
+                    </p>
+                </div>
+
+                <div class="calendar-wrapper">
+                    <div class="calendar-controls">
+                        <div class="month-nav">
+                            <button class="btn btn-outline" style="padding: 6px 14px;" onclick="prevCalendarMonth()">◀ Prev</button>
+                            <span class="month-label" id="calendarMonthLabel">November 2026</span>
+                            <button class="btn btn-outline" style="padding: 6px 14px;" onclick="nextCalendarMonth()">Next ▶</button>
+                        </div>
+                        <div style="display: flex; gap: 14px; font-size: 0.85rem; align-items: center;">
+                            <span style="display: flex; align-items: center; gap: 6px;">
+                                <span style="width: 12px; height: 12px; border-radius: 3px; background: #10b981;"></span>
+                                Available
+                            </span>
+                            <span style="display: flex; align-items: center; gap: 6px;">
+                                <span style="width: 12px; height: 12px; border-radius: 3px; background: #f59e0b;"></span>
+                                Partially Booked
+                            </span>
+                            <span style="display: flex; align-items: center; gap: 6px;">
+                                <span style="width: 12px; height: 12px; border-radius: 3px; background: #ef4444;"></span>
+                                Fully Booked
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="calendar-grid">
+                        <div class="day-header">Sun</div>
+                        <div class="day-header">Mon</div>
+                        <div class="day-header">Tue</div>
+                        <div class="day-header">Wed</div>
+                        <div class="day-header">Thu</div>
+                        <div class="day-header">Fri</div>
+                        <div class="day-header">Sat</div>
+                    </div>
+                    <div class="calendar-grid" id="calendarDaysGrid" style="margin-top: 8px;">
+                        <!-- Days populated dynamically by app.js -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services & Catering Menus -->
+        <section id="services" style="padding: 80px 0; background: rgba(14, 21, 38, 0.4);">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Royal Hospitality</span>
+                    <h2 class="section-title">Catering Menus & Signature Décor</h2>
+                    <p class="section-desc">
+                        Our master chefs craft royal Mughlai feasts and international gourmet banquets with live interactive cooking stations.
+                    </p>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+                    <div class="hall-card" style="padding: 24px;">
+                        <div style="font-size: 2.2rem; margin-bottom: 12px;">🍲</div>
+                        <h3 style="color: #fff; margin-bottom: 8px;">Shahi Dastarkhwan</h3>
+                        <p style="color: var(--text-gold); font-size: 0.9rem; margin-bottom: 12px;">₹1,250 / plate</p>
+                        <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 16px;">
+                            Authentic Dum Biryani, Galouti Kebabs, Gosht Korma, Dal Bukhara, Shahi Tukda, and Kashmiri Chai.
+                        </p>
+                        <span class="feature-pill" style="align-self: flex-start;">Non-Veg & Veg Grand Spread</span>
+                    </div>
+
+                    <div class="hall-card" style="padding: 24px;">
+                        <div style="font-size: 2.2rem; margin-bottom: 12px;">🍕</div>
+                        <h3 style="color: #fff; margin-bottom: 8px;">Grand Continental Fusion</h3>
+                        <p style="color: var(--text-gold); font-size: 0.9rem; margin-bottom: 12px;">₹1,450 / plate</p>
+                        <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 16px;">
+                            Live woodfired pizza & pasta counters, dim sum steamers, Rogan Josh, Mediterranean platters, and chocolate fountain.
+                        </p>
+                        <span class="feature-pill" style="align-self: flex-start;">Premium Multi-Cuisine</span>
+                    </div>
+
+                    <div class="hall-card" style="padding: 24px;">
+                        <div style="font-size: 2.2rem; margin-bottom: 12px;">🥗</div>
+                        <h3 style="color: #fff; margin-bottom: 8px;">Royal Swarna Pure Veg</h3>
+                        <p style="color: var(--text-gold); font-size: 0.9rem; margin-bottom: 12px;">₹950 / plate</p>
+                        <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 16px;">
+                            100% Pure Vegetarian gourmet feast with Paneer Lababdar, Dal Makhani, live Chaat stalls, Rasmalai & Jalebi Rabri.
+                        </p>
+                        <span class="feature-pill" style="align-self: flex-start;">100% Pure Vegetarian</span>
+                    </div>
+
+                    <div class="hall-card" style="padding: 24px;">
+                        <div style="font-size: 2.2rem; margin-bottom: 12px;">✨</div>
+                        <h3 style="color: #fff; margin-bottom: 8px;">Signature Themes & FX</h3>
+                        <p style="color: var(--text-gold); font-size: 0.9rem; margin-bottom: 12px;">From ₹75,000</p>
+                        <p style="color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 16px;">
+                            Royal Gold & Velvet Stage, 4K Drone Film Crew, Cold Pyros, Heavy Dry Ice Cloud bridal entry, and Vintage Convertable.
+                        </p>
+                        <span class="feature-pill" style="align-self: flex-start;">Complete Turnkey Décor</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section id="reviews" style="padding: 80px 0;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Loved By Happy Couples</span>
+                    <h2 class="section-title">What Our Guests Say</h2>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+                    <div class="hall-card" style="padding: 24px;">
+                        <div style="color: #facc15; font-size: 1.2rem; margin-bottom: 10px;">★★★★★</div>
+                        <p style="color: var(--text-secondary); font-size: 0.92rem; font-style: italic; margin-bottom: 16px;">
+                            "The Royal Kohinoor Grand Ballroom was absolute royalty! The chandeliers, 900-seat dining area, and the cold fire bridal entry made our reception unforgettable. Flawless management by Mr. Reyaz and team!"
+                        </p>
+                        <div style="font-weight: 700; color: #fff;">Dr. Sarah & Zeeshan Ahmed</div>
+                        <div style="font-size: 0.78rem; color: var(--gold-300);">Wedding Reception • 1,500 Guests</div>
+                    </div>
+
+                    <div class="hall-card" style="padding: 24px;">
+                        <div style="color: #facc15; font-size: 1.2rem; margin-bottom: 10px;">★★★★★</div>
+                        <p style="color: var(--text-secondary); font-size: 0.92rem; font-style: italic; margin-bottom: 16px;">
+                            "Emerald Garden Pavilion under the fairy light canopy felt like a dream fairytale! The live food counters and royal vegetarian spread were applauded by all our guests. Booking online was effortless."
+                        </p>
+                        <div style="font-weight: 700; color: #fff;">Priya & Rohan Verma</div>
+                        <div style="font-size: 0.78rem; color: var(--gold-300);">Lawn Wedding & Pheras • 850 Guests</div>
+                    </div>
+
+                    <div class="hall-card" style="padding: 24px;">
+                        <div style="color: #facc15; font-size: 1.2rem; margin-bottom: 10px;">★★★★★</div>
+                        <p style="color: var(--text-secondary); font-size: 0.92rem; font-style: italic; margin-bottom: 16px;">
+                            "The booking transparency, automated receipt voucher, and instant date checking saved us weeks of hassle. Crystal Palace Banquets is modern, opulent, and ultra clean."
+                        </p>
+                        <div style="font-weight: 700; color: #fff;">Ayesha & Tariq Mansoor</div>
+                        <div style="font-size: 0.78rem; color: var(--gold-300);">Nikah & Walima • 1,100 Guests</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact & Location Section -->
+        <section id="contact" style="padding: 80px 0; background: rgba(8, 13, 24, 0.7); border-top: 1px solid var(--border-gold);">
+            <div class="container">
+                <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center;">
+                    <div>
+                        <span class="section-tag">Get In Touch With Reyaz Hospitality</span>
+                        <h2 class="section-title">Schedule a Private Palace Tour</h2>
+                        <p style="color: var(--text-secondary); margin-bottom: 24px;">
+                            Have questions or custom catering requests? Our wedding concierge team is ready to walk you through our ballrooms, bridal dressing suites, and dining banquet layouts.
+                        </p>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
+                            <div style="display: flex; align-items: center; gap: 12px; color: var(--text-secondary);">
+                                <span style="font-size: 1.3rem; color: var(--gold-300);">📍</span>
+                                <span>Reyaz Grand Palace & Convention Center, VIP Grand Avenue, Luxury Estate</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px; color: var(--text-secondary);">
+                                <span style="font-size: 1.3rem; color: var(--gold-300);">📞</span>
+                                <span>24/7 Reservation Concierge: +91 98765 43210 / +91 98111 22334</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px; color: var(--text-secondary);">
+                                <span style="font-size: 1.3rem; color: var(--gold-300);">✉️</span>
+                                <span>bookings@reyazgrandpalace.com</span>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 12px;">
+                            <a href="tel:+919876543210" class="btn btn-primary">Call Concierge</a>
+                            <a href="admin.html" class="btn btn-outline">Manager Portal</a>
+                        </div>
+                    </div>
+
+                    <div class="hall-card" style="padding: 30px; text-align: center;">
+                        <h3 style="color: #fff; margin-bottom: 12px;">Quick Inquiry Request</h3>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Leave your contact details and our manager will call back within 15 minutes.</p>
+                        <form onsubmit="event.preventDefault(); showToast('Thank you! Our wedding concierge will contact you shortly.', 'success'); this.reset();" style="display: flex; flex-direction: column; gap: 12px;">
+                            <input type="text" class="form-control" placeholder="Your Full Name" required>
+                            <input type="tel" class="form-control" placeholder="Your WhatsApp / Mobile Number" required>
+                            <textarea class="form-control" rows="3" placeholder="Approx Date, Guest Count & Special Needs..."></textarea>
+                            <button type="submit" class="btn btn-primary" style="margin-top: 6px;">Request Callback</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+                            <span style="font-size: 1.8rem;">👑</span>
+                            <span style="font-family: var(--font-heading); font-size: 1.3rem; color: #fff; font-weight: 700;">REYAZ GRAND</span>
+                        </div>
+                        <p style="font-size: 0.88rem; line-height: 1.7; margin-bottom: 16px;">
+                            Reyaz Online Wedding Hall Booking Management System. Pioneering grand opulence, effortless digital venue reservations, and world-class royal hospitality.
+                        </p>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Grand Halls</h4>
+                        <ul class="footer-links">
+                            <li><a href="#halls">Royal Kohinoor Ballroom</a></li>
+                            <li><a href="#halls">Crystal Palace Banquets</a></li>
+                            <li><a href="#halls">Emerald Garden Pavilion</a></li>
+                            <li><a href="#halls">Noor Heritage Mahal</a></li>
+                            <li><a href="#halls">Sapphire Intimate Hall</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Services</h4>
+                        <ul class="footer-links">
+                            <li><a href="#services">Shahi Mughlai Catering</a></li>
+                            <li><a href="#services">Continental Live Buffets</a></li>
+                            <li><a href="#services">Royal Gold Stage Décor</a></li>
+                            <li><a href="#services">Cinematic 4K Drone Filming</a></li>
+                            <li><a href="#services">Valet & Concierge Team</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Quick Access</h4>
+                        <ul class="footer-links">
+                            <li><a href="#calendar">Live Availability Calendar</a></li>
+                            <li><a href="admin.html">Administrator Dashboard</a></li>
+                            <li><a href="#contact">Private Palace Tour</a></li>
+                            <li><a href="#" onclick="WeddingStore.resetDemoData(); location.reload();">Reset Demo Records</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <p>© 2026 Reyaz Online Wedding Hall Booking Management System. All Rights Reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Live Booking Wizard Modal -->
+    <div class="modal-backdrop" id="bookingModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <span>👑 Configure & Reserve:</span>
+                    <span id="modalHallName" class="gold-text">The Royal Kohinoor Grand Ballroom</span>
+                </h3>
+                <button class="modal-close" onclick="closeBookingWizard()">&times;</button>
+            </div>
+
+            <form id="hallBookingForm">
+                <input type="hidden" id="bookHallId">
+                <div class="modal-body">
+                    <!-- Left Column: Form Fields -->
+                    <div class="booking-form-col">
+                        <div id="modalAvailabilityStatus" style="font-size: 0.88rem; font-weight: 600;"></div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>📅 Event Date *</label>
+                                <input type="date" id="bookDate" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>🎉 Event Type *</label>
+                                <select id="bookEventType" class="form-control" required>
+                                    <option value="Wedding Reception">Wedding Reception</option>
+                                    <option value="Royal Nikah & Walima">Royal Nikah & Walima</option>
+                                    <option value="Lawn Pheras & Wedding">Lawn Pheras & Wedding</option>
+                                    <option value="Sangeet & Mehendi Night">Sangeet & Mehendi Night</option>
+                                    <option value="Ring Ceremony / Engagement">Ring Ceremony / Engagement</option>
+                                    <option value="Grand Anniversary Gala">Grand Anniversary Gala</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>⏰ Select Time Slot *</label>
+                            <div class="radio-cards-grid">
+                                <div class="radio-card slot-radio-card selected" data-slot="evening">
+                                    <input type="radio" name="bookSlot" value="evening" checked style="display:none;">
+                                    <span class="title">Evening Gala</span>
+                                    <span class="sub">5:00 PM – 12:00 AM</span>
+                                </div>
+                                <div class="radio-card slot-radio-card" data-slot="morning">
+                                    <input type="radio" name="bookSlot" value="morning" style="display:none;">
+                                    <span class="title">Morning Slot</span>
+                                    <span class="sub">9:00 AM – 3:00 PM (15% Off)</span>
+                                </div>
+                                <div class="radio-card slot-radio-card" data-slot="fullday">
+                                    <input type="radio" name="bookSlot" value="fullday" style="display:none;">
+                                    <span class="title">Full Day (24h)</span>
+                                    <span class="sub">Complete Day & Night</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>👥 Expected Guests *</label>
+                                <input type="number" id="bookGuests" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>🍲 Catering Menu Package</label>
+                                <select id="bookCatering" class="form-control">
+                                    <!-- Populated from data.js -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>💐 Stage Décor & Floral Theme</label>
+                            <select id="bookDecor" class="form-control">
+                                <!-- Populated from data.js -->
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>✨ Premium Add-on Services</label>
+                            <div class="services-list" id="bookServicesContainer">
+                                <!-- Populated from data.js -->
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>👤 Host / Customer Name *</label>
+                                <input type="text" id="bookCustomerName" class="form-control" placeholder="e.g. Sarah & Farhan" required>
+                            </div>
+                            <div class="form-group">
+                                <label>📞 Phone / WhatsApp *</label>
+                                <input type="tel" id="bookCustomerPhone" class="form-control" placeholder="+91 98765 43210" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>✉️ Email Address *</label>
+                                <input type="email" id="bookCustomerEmail" class="form-control" placeholder="client@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label>📝 Special Requests / Notes</label>
+                                <input type="text" id="bookNotes" class="form-control" placeholder="e.g. VIP bridal entry, vintage car timing">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Live Bill Summary -->
+                    <div class="bill-summary-col">
+                        <div>
+                            <div class="bill-title">
+                                <span>🧾 Estimated Investment</span>
+                            </div>
+                            <div class="bill-items">
+                                <div class="bill-row">
+                                    <span>Hall Base Charge:</span>
+                                    <strong id="billHallCharge">₹0</strong>
+                                </div>
+                                <div class="bill-row">
+                                    <span>Catering Buffet:</span>
+                                    <strong id="billCateringCharge">₹0</strong>
+                                </div>
+                                <div class="bill-row">
+                                    <span>Décor & Theme:</span>
+                                    <strong id="billDecorCharge">₹0</strong>
+                                </div>
+                                <div class="bill-row">
+                                    <span>Add-on Services:</span>
+                                    <strong id="billServicesCharge">₹0</strong>
+                                </div>
+                                <div class="bill-row">
+                                    <span>GST / Service Tax (18%):</span>
+                                    <strong id="billTaxCharge">₹0</strong>
+                                </div>
+                                <div class="bill-row total">
+                                    <span>Grand Total:</span>
+                                    <span id="billGrandTotal">₹0</span>
+                                </div>
+                            </div>
+
+                            <div class="bill-advance-note">
+                                <strong>💳 25% Advance to Reserve Slot:</strong><br>
+                                <span id="billAdvanceDue" style="font-size: 1.25rem; font-weight: 700; color: #fff;">₹0</span><br>
+                                <span style="font-size: 0.72rem; opacity: 0.9;">Remaining 75% payable 7 days before event.</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 20px;">
+                            <button type="submit" id="btnSubmitBooking" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 1rem;">
+                                Confirm & Generate Voucher
+                            </button>
+                            <button type="button" class="btn btn-outline" style="width: 100%; margin-top: 8px;" onclick="closeBookingWizard()">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Printable Booking Voucher / Invoice Modal -->
+    <div class="modal-backdrop" id="invoiceModal">
+        <div class="modal-dialog" style="max-width: 780px;">
+            <div class="modal-header">
+                <h3 class="modal-title">🎉 Official Booking Voucher</h3>
+                <button class="modal-close" onclick="closeInvoiceModal()">&times;</button>
+            </div>
+            <div style="padding: 24px;">
+                <div class="invoice-card" id="printableInvoice">
+                    <div class="invoice-header">
+                        <div>
+                            <div class="invoice-brand">REYAZ GRAND BANQUETS</div>
+                            <div style="font-size: 0.8rem; color: #64748b;">VIP Grand Avenue • Luxury Convention Estate</div>
+                            <div style="font-size: 0.8rem; color: #64748b;">Tel: +91 98765 43210 • bookings@reyazgrandpalace.com</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="invoice-badge-status">CONFIRMED & RESERVED</div>
+                            <div style="font-size: 0.85rem; font-weight: 700; margin-top: 6px; color: #0f172a;">REF: #<span id="invBookingId">RYZ-0000</span></div>
+                            <div style="font-size: 0.78rem; color: #64748b;">Date: <span id="invBookingDate">2026-11-06</span></div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; font-size: 0.88rem;">
+                        <div>
+                            <div style="font-weight: 700; color: #475569; text-transform: uppercase; font-size: 0.75rem;">Reserved For</div>
+                            <div style="font-weight: 700; color: #0f172a;" id="invCustomerName">Client Name</div>
+                            <div id="invCustomerPhone">+91 00000 00000</div>
+                            <div id="invCustomerEmail">email@example.com</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: 700; color: #475569; text-transform: uppercase; font-size: 0.75rem;">Event Particulars</div>
+                            <div style="font-weight: 700; color: #0f172a;" id="invHallName">Grand Ballroom</div>
+                            <div>Date: <strong id="invEventDate">2026-11-20</strong></div>
+                            <div>Guests: <span id="invGuests">800 Guests</span> | <span id="invEventType">Wedding</span></div>
+                        </div>
+                    </div>
+
+                    <table class="invoice-table">
+                        <thead>
+                            <tr>
+                                <th>Item / Package Details</th>
+                                <th style="text-align: right;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Catering Package:</strong> <span id="invCatering">Shahi Dastarkhwan</span>
+                                </td>
+                                <td style="text-align: right; color: #10b981; font-weight: 600;">Included</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Décor Theme:</strong> <span id="invDecor">Royal Gold Grandeur</span>
+                                </td>
+                                <td style="text-align: right; color: #10b981; font-weight: 600;">Included</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Hospitality & Valet:</strong> Executive Bridal Suite + Security Team
+                                </td>
+                                <td style="text-align: right; color: #10b981; font-weight: 600;">Complimentary</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="invoice-total-box">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                            <span>Total Estimated:</span>
+                            <strong id="invTotal">₹0</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #047857;">
+                            <span>Advance Paid (25%):</span>
+                            <strong id="invAdvancePaid">₹0</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 1.05rem; font-weight: 800; border-top: 1px dashed #cbd5e1; padding-top: 6px; color: #b91c1c;">
+                            <span>Balance Due:</span>
+                            <span id="invBalanceDue">₹0</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 24px; padding-top: 14px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #94a3b8;">
+                        <div>
+                            Official Stamp of Reyaz Grand Palace & Convention Center.<br>
+                            Please present this voucher upon arrival for rehearsal and tasting.
+                        </div>
+                        <div style="font-family: monospace; font-size: 1.1rem; letter-spacing: 2px; color: #0f172a; font-weight: bold;">
+                            [|||||||||||||||||]
+                        </div>
+                    </div>
+                </div>
+
+                <div class="invoice-actions">
+                    <button class="btn btn-outline" onclick="window.print()">🖨️ Print Voucher</button>
+                    <button class="btn btn-primary" onclick="closeInvoiceModal()">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

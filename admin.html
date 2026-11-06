@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Reyaz Wedding Hall Booking Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👑</text></svg>">
+</head>
+<body class="admin-body">
+
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <a href="index.html" class="admin-logo">
+                <div class="admin-logo-badge">👑</div>
+                <div>
+                    <div style="font-family: var(--font-heading); font-weight: 700; color: #fff;">REYAZ GRAND</div>
+                    <div style="font-size: 0.72rem; color: var(--admin-gold); text-transform: uppercase;">Management Portal</div>
+                </div>
+            </a>
+
+            <ul class="admin-nav">
+                <li><a href="#overview" class="active"><span>📊</span> Dashboard Overview</a></li>
+                <li><a href="#bookings-section"><span>📋</span> Bookings Management</a></li>
+                <li><a href="#halls-section"><span>🏰</span> Halls & Availability</a></li>
+                <li><a href="#analytics-section"><span>📈</span> Revenue Analytics</a></li>
+                <li><a href="index.html"><span>🌐</span> View Client Website</a></li>
+            </ul>
+
+            <div class="admin-sidebar-footer">
+                <button class="btn btn-outline" style="font-size: 0.8rem; width: 100%;" onclick="resetAllData()">
+                    🔄 Restore Demo Data
+                </button>
+                <div style="font-size: 0.75rem; color: var(--admin-text-muted); text-align: center;">
+                    Reyaz Management Engine v2.4
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="admin-main">
+            <!-- Topbar -->
+            <header class="admin-topbar">
+                <div class="admin-topbar-title">Wedding Hall Booking Management System</div>
+                <div class="admin-topbar-actions">
+                    <button class="btn btn-primary" onclick="openAddBookingModal()">
+                        + New Walk-in Booking
+                    </button>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-left: 10px;">
+                        <span style="font-size: 1.5rem;">👑</span>
+                        <div>
+                            <div style="font-size: 0.88rem; font-weight: 600; color: #fff;">Reyaz Admin</div>
+                            <div style="font-size: 0.72rem; color: #34d399;">● Online Manager</div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="admin-content" id="overview">
+                <!-- KPI Grid -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="kpi-icon-box kpi-gold">💰</div>
+                        <div>
+                            <div class="kpi-value" id="kpiRevenue">₹0</div>
+                            <div class="kpi-label">Confirmed Revenue</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon-box kpi-green">✅</div>
+                        <div>
+                            <div class="kpi-value" id="kpiConfirmed">0</div>
+                            <div class="kpi-label">Confirmed Bookings</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon-box kpi-blue">⏳</div>
+                        <div>
+                            <div class="kpi-value" id="kpiPending">0</div>
+                            <div class="kpi-label">Pending Approvals</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon-box kpi-purple">🏰</div>
+                        <div>
+                            <div class="kpi-value" id="kpiActiveHalls">0 / 0</div>
+                            <div class="kpi-label">Active Halls</div>
+                        </div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-icon-box kpi-gold">👥</div>
+                        <div>
+                            <div class="kpi-value" id="kpiGuests">0</div>
+                            <div class="kpi-label">Guests Hosted</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bookings Management Section -->
+                <div class="admin-card" id="bookings-section">
+                    <div class="admin-card-header">
+                        <div class="admin-card-title">
+                            <span>📋</span> All Wedding Reservations
+                        </div>
+                        <div class="table-controls">
+                            <input type="text" id="tableSearchInput" class="table-search" placeholder="Search by Client, ID, Hall...">
+                            <select id="tableFilterSelect" class="table-filter-select">
+                                <option value="all">All Statuses</option>
+                                <option value="Confirmed">Confirmed</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="data-table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Ref ID</th>
+                                    <th>Customer / Host</th>
+                                    <th>Venue & Event</th>
+                                    <th>Date & Slot</th>
+                                    <th>Guests</th>
+                                    <th>Total & Advance</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bookingsTableBody">
+                                <!-- Populated dynamically by admin.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Analytics & Hall Management Split -->
+                <div class="analytics-grid" id="analytics-section">
+                    <!-- Hall Revenue Breakdown -->
+                    <div class="admin-card">
+                        <div class="admin-card-header">
+                            <div class="admin-card-title">
+                                <span>📈</span> Revenue By Hall & Venue
+                            </div>
+                        </div>
+                        <div class="bar-chart-container" id="revenueAnalyticsBars">
+                            <!-- Populated dynamically by admin.js -->
+                        </div>
+                    </div>
+
+                    <!-- Halls Quick Status Controls -->
+                    <div class="admin-card" id="halls-section">
+                        <div class="admin-card-header">
+                            <div class="admin-card-title">
+                                <span>🏰</span> Hall Operations Status
+                            </div>
+                        </div>
+                        <p style="font-size: 0.82rem; color: var(--admin-text-muted); margin-bottom: 14px;">
+                            Toggle off to block a hall for scheduled maintenance or private VIP reservations.
+                        </p>
+                        <div class="halls-management-list" id="hallMgmtList">
+                            <!-- Populated dynamically by admin.js -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Manual Add Booking Modal -->
+    <div class="modal-backdrop" id="adminAddModal">
+        <div class="modal-dialog" style="max-width: 650px;">
+            <div class="modal-header">
+                <h3 class="modal-title">➕ Add Walk-in / Phone Reservation</h3>
+                <button class="modal-close" onclick="closeAddBookingModal()">&times;</button>
+            </div>
+            <form id="adminAddBookingForm" style="padding: 24px;">
+                <div style="display: flex; flex-direction: column; gap: 16px;">
+                    <div class="form-group">
+                        <label>Select Wedding Hall *</label>
+                        <select id="adminBookHall" class="form-control" required></select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Client / Host Name *</label>
+                            <input type="text" id="adminCustomerName" class="form-control" placeholder="e.g. Tariq & Sanya" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" id="adminCustomerPhone" class="form-control" placeholder="+91 98765 00000" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="adminCustomerEmail" class="form-control" placeholder="client@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Event Type</label>
+                            <select id="adminEventType" class="form-control">
+                                <option value="Wedding Reception">Wedding Reception</option>
+                                <option value="Nikah & Walima">Nikah & Walima</option>
+                                <option value="Lawn Pheras">Lawn Pheras</option>
+                                <option value="Sangeet Night">Sangeet Night</option>
+                                <option value="Engagement">Engagement</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Event Date *</label>
+                            <input type="date" id="adminEventDate" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Time Slot *</label>
+                            <select id="adminSlot" class="form-control">
+                                <option value="evening">Evening (5 PM - 12 AM)</option>
+                                <option value="morning">Morning (9 AM - 3 PM)</option>
+                                <option value="fullday">Full Day (24 Hours)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Guest Count *</label>
+                            <input type="number" id="adminGuestCount" class="form-control" value="600" min="50" step="50" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Total Agreed Amount (₹) *</label>
+                            <input type="number" id="adminTotalAmount" class="form-control" value="450000" step="5000" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Advance Received (₹) *</label>
+                        <input type="number" id="adminAdvancePaid" class="form-control" value="150000" step="5000" required>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-top: 10px;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Save & Confirm Booking</button>
+                        <button type="button" class="btn btn-outline" onclick="closeAddBookingModal()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Printable Invoice Modal for Admin -->
+    <div class="modal-backdrop" id="invoiceModal">
+        <div class="modal-dialog" style="max-width: 780px;">
+            <div class="modal-header">
+                <h3 class="modal-title">🎉 Booking Voucher Preview</h3>
+                <button class="modal-close" onclick="closeInvoiceModal()">&times;</button>
+            </div>
+            <div style="padding: 24px;">
+                <div class="invoice-card" id="printableInvoice">
+                    <div class="invoice-header">
+                        <div>
+                            <div class="invoice-brand">REYAZ GRAND BANQUETS</div>
+                            <div style="font-size: 0.8rem; color: #64748b;">VIP Grand Avenue • Luxury Convention Estate</div>
+                            <div style="font-size: 0.8rem; color: #64748b;">Tel: +91 98765 43210 • bookings@reyazgrandpalace.com</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="invoice-badge-status">CONFIRMED & RESERVED</div>
+                            <div style="font-size: 0.85rem; font-weight: 700; margin-top: 6px; color: #0f172a;">REF: #<span id="invBookingId">RYZ-0000</span></div>
+                            <div style="font-size: 0.78rem; color: #64748b;">Date: <span id="invBookingDate">2026-11-06</span></div>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; font-size: 0.88rem;">
+                        <div>
+                            <div style="font-weight: 700; color: #475569; text-transform: uppercase; font-size: 0.75rem;">Reserved For</div>
+                            <div style="font-weight: 700; color: #0f172a;" id="invCustomerName">Client Name</div>
+                            <div id="invCustomerPhone">+91 00000 00000</div>
+                            <div id="invCustomerEmail">email@example.com</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: 700; color: #475569; text-transform: uppercase; font-size: 0.75rem;">Event Particulars</div>
+                            <div style="font-weight: 700; color: #0f172a;" id="invHallName">Grand Ballroom</div>
+                            <div>Date: <strong id="invEventDate">2026-11-20</strong></div>
+                            <div>Guests: <span id="invGuests">800 Guests</span> | <span id="invEventType">Wedding</span></div>
+                        </div>
+                    </div>
+
+                    <table class="invoice-table">
+                        <thead>
+                            <tr>
+                                <th>Item / Package Details</th>
+                                <th style="text-align: right;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Catering Package:</strong> <span id="invCatering">Shahi Dastarkhwan</span></td>
+                                <td style="text-align: right; color: #10b981; font-weight: 600;">Included</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Décor Theme:</strong> <span id="invDecor">Royal Gold Grandeur</span></td>
+                                <td style="text-align: right; color: #10b981; font-weight: 600;">Included</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Hospitality & Valet:</strong> Executive Bridal Suite + Security Team</td>
+                                <td style="text-align: right; color: #10b981; font-weight: 600;">Complimentary</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="invoice-total-box">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                            <span>Total Estimated:</span>
+                            <strong id="invTotal">₹0</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; color: #047857;">
+                            <span>Advance Paid:</span>
+                            <strong id="invAdvancePaid">₹0</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 1.05rem; font-weight: 800; border-top: 1px dashed #cbd5e1; padding-top: 6px; color: #b91c1c;">
+                            <span>Balance Due:</span>
+                            <span id="invBalanceDue">₹0</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 24px; padding-top: 14px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #94a3b8;">
+                        <div>
+                            Official Stamp of Reyaz Grand Palace & Convention Center.<br>
+                            Administrative Copy & Client Receipt.
+                        </div>
+                        <div style="font-family: monospace; font-size: 1.1rem; letter-spacing: 2px; color: #0f172a; font-weight: bold;">
+                            [|||||||||||||||||]
+                        </div>
+                    </div>
+                </div>
+
+                <div class="invoice-actions">
+                    <button class="btn btn-outline" onclick="window.print()">🖨️ Print Voucher</button>
+                    <button class="btn btn-primary" onclick="closeInvoiceModal()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="js/data.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        function openInvoiceModal(booking) {
+            const modal = document.getElementById('invoiceModal');
+            if (!modal) return;
+            document.getElementById('invBookingId').innerText = booking.id;
+            document.getElementById('invBookingDate').innerText = booking.bookingDate || '2026-11-06';
+            document.getElementById('invCustomerName').innerText = booking.customerName;
+            document.getElementById('invCustomerPhone').innerText = booking.customerPhone;
+            document.getElementById('invCustomerEmail').innerText = booking.customerEmail;
+            document.getElementById('invHallName').innerText = booking.hallName;
+            document.getElementById('invEventDate').innerText = booking.eventDate + ` (${(booking.slot || '').toUpperCase()})`;
+            document.getElementById('invGuests').innerText = booking.guestCount + ' Guests';
+            document.getElementById('invEventType').innerText = booking.eventType;
+            document.getElementById('invCatering').innerText = booking.cateringName || 'Custom Menu';
+            document.getElementById('invDecor').innerText = booking.decorName || 'Standard Luxury Décor';
+            document.getElementById('invTotal').innerText = WeddingStore.formatCurrency(booking.totalAmount);
+            document.getElementById('invAdvancePaid').innerText = WeddingStore.formatCurrency(booking.advancePaid);
+            document.getElementById('invBalanceDue').innerText = WeddingStore.formatCurrency(booking.balanceDue);
+            modal.classList.add('active');
+        }
+
+        function closeInvoiceModal() {
+            const modal = document.getElementById('invoiceModal');
+            if (modal) modal.classList.remove('active');
+        }
+    </script>
+</body>
+</html>
